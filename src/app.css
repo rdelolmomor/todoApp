@@ -1,0 +1,136 @@
+html{
+  background-color: rgb(168, 168, 168);
+}
+
+.contenedorApp{
+  position: relative;
+  margin: 0 auto;
+  background-color: rgb(33, 33, 33);
+  border: 3px solid rgb(0, 0, 0);
+  border-radius: 20px;
+  max-width: 60rem;
+  padding: 10px;
+}
+
+.App{
+  height: 40rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: overlay;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+}
+
+.App::-webkit-scrollbar {
+  width: 12px;
+  background-color: rgb(33, 33, 33);
+}
+
+
+.App::-webkit-scrollbar-thumb {
+  margin: 10px;
+  background-color: rgb(110, 110, 110);
+  border-radius: 20px;
+}
+
+.contador{
+  height: min-content;
+  padding: 0.5% 2%;
+  background-color: brown;
+  margin: 1rem 1rem;
+  border-radius: 16px;
+  border: 2px solid black;
+}
+.contador > h1{
+  margin: 0rem;
+}
+
+.buscador{
+  margin-bottom:1rem;
+}
+
+.buscador > input{
+  background-color: rgb(93, 93, 93);
+  padding-left: 1rem;
+  width: 80rem;
+  height: 2rem;
+  font-size: medium;
+  max-width: 250px;
+  border: 2px solid black;
+  border-radius: 20px;
+}
+
+.lista{
+  list-style: none;
+  width: 90%;
+  padding: 0;
+  margin: 0 1.5rem 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap:0.4rem;
+}
+
+.tarea{
+  border: 2px solid black;
+  border-radius: 15px;
+  background-color: brown;
+  padding: 0 0.5rem;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.tarea > div{
+  display:flex;
+  flex-direction: row;
+}
+
+.divBoton{
+  align-self: end;
+  margin: 0.5rem 2rem 0.6rem 0;
+}
+.divBoton > button{
+  background-color:brown;
+  border:2px solid black;
+}
+.divBoton > button:hover{
+  background-color: brown;
+}
+
+.dialogoActions > button{
+  background-color:brown;
+  border:2px solid black;
+}
+
+.dialogoActions > button:hover{
+  background-color:brown;
+}
+
+.dialogo > .MuiDialog-container > .MuiPaper-root{
+  background-color: rgb(33,33,33);
+  border: 2px solid black;
+  border-radius: 10px;
+  color:rgb(200, 200, 200);
+}
+
+.dialogoContent > div{
+  margin:2%;
+}
+
+.dialogoContent > div > input{
+  background-color: rgb(93, 93, 93);
+  color:rgb(220, 220, 220);
+  padding-left: 1rem;
+  width: 80rem;
+  height: 2rem;
+  font-size: medium;
+  max-width: 250px;
+  border: 2px solid black;
+  border-radius: 10px;
+}
+
+.dialogoContent > div > input::placeholder { 
+  color: rgb(160, 160, 160);
+  opacity: 1; 
+}
