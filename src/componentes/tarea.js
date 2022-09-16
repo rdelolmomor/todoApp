@@ -104,4 +104,4 @@ export default function Tarea({tarea, setTareas}){
             }
         </li>
     );
-}
+};

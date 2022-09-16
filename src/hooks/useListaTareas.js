@@ -25,5 +25,9 @@ export default function useListaTareas(){
         window.localStorage.setItem('tareas', JSON.stringify(newTareas));
     }
 
-    return {guardaTarea, actualizarTarea, cargaTareas, borraTarea}
+    const guardarTotalTareas = (tareas) =>{
+        window.localStorage.setItem('tareas', JSON.stringify(tareas));
+    }
+
+    return {guardaTarea, actualizarTarea, cargaTareas, guardarTotalTareas, borraTarea}
 }

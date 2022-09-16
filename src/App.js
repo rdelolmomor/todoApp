@@ -9,6 +9,8 @@ import useListaTareas from './hooks/useListaTareas';
 import { Snackbar } from '@mui/material';
 import styled from '@emotion/styled';
 
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
 const MiSnackbar = styled(Snackbar)({
   '.MuiPaper-root':{
     backgroundColor: 'rgb(255, 102, 0)',
@@ -27,7 +29,9 @@ function App() {
   const [tareasFiltradas, setTareasFiltradas] = useState([]);
   const [showDialog, setShowDialog] = useState(false);
   const [snackState, setSnackState] = useState({open:false,text:''});
-  const { cargaTareas } = useListaTareas();
+  const { cargaTareas, guardarTotalTareas } = useListaTareas();
+
+  console.log(tareas);
 
   useEffect(()=>{
     setTareas(cargaTareas());
@@ -35,6 +39,7 @@ function App() {
   },[]);
   
  useEffect(()=>{
+  console.log('filtratareas');
   setTareasFiltradas(tareas.filter((tarea)=>tarea.nombre.includes(filtro)))
  },[tareas,filtro]);
 
@@ -46,6 +51,26 @@ const openSnack = (texto) =>{
   setSnackState({text:texto, open:true});
 };
 
+const onDragEnd = (event) =>{
+  if(tareasFiltradas.length < tareas.length){
+    openSnack('Hay tareas ocultas, elimina los filtros establecidos antesde ordenar tu lista de tareas');
+    return;
+  }//else{
+    const source = event.source.index;
+    const destination = event.destination.index;
+    console.log(`Mover desde: ${source} a: ${destination}`);
+    const copiaTareas = tareas;
+    const tareaEliminada = copiaTareas.splice(source,1)[0];
+    copiaTareas.splice(destination,0,tareaEliminada);
+    guardarTotalTareas(copiaTareas);
+    setTareas(cargaTareas());
+    //setTareas(copiaTareas);
+  //}
+  
+}
+
+
+
   return (
       <div className="App">
         <div className="Objects">
@@ -53,11 +78,29 @@ const openSnack = (texto) =>{
           <Buscador filtrar={setFiltro}/>
           <div className='contenedorLista'>
             <div className='margenLista'>
-              <ul className='lista'>
-                {
-                tareasFiltradas.map((tarea,index)=> <Tarea key={'tarea'+index} tarea={tarea} showDialog={showDialog} setShowDialog={setShowDialog} setTareas={setTareas}/>)
-                }
-              </ul>
+              <DragDropContext onDragEnd={onDragEnd}>
+                <Droppable droppableId='task'>
+                  { 
+                  (droppableProvider)=> (
+                  <ul 
+                    {...droppableProvider.droppableProps} 
+                    ref={droppableProvider.innerRef} 
+                    className='lista'>
+                      {tareasFiltradas.map((tarea,index)=> (
+                        <Draggable key={tarea.id} draggableId={`task ${tarea.id}`} index={index}>
+                          {(draggableProvider)=>(
+                          <div
+                          {...draggableProvider.draggableProps} 
+                          ref={draggableProvider.innerRef}
+                          {...draggableProvider.dragHandleProps}>
+                            <Tarea tarea={tarea} showDialog={showDialog} setShowDialog={setShowDialog} setTareas={setTareas}/>
+                          </div>)}
+                        </Draggable>
+                      ))}
+                    {droppableProvider.placeholder}
+                  </ul>)}
+                </Droppable>
+              </DragDropContext>
             </div>
           </div>
         </div>
