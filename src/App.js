@@ -6,6 +6,19 @@ import Tarea from './componentes/tarea';
 import DialogoCrear from './componentes/dialogo';
 import Boton from './componentes/boton';
 import useListaTareas from './hooks/useListaTareas';
+import { Snackbar } from '@mui/material';
+import styled from '@emotion/styled';
+
+const MiSnackbar = styled(Snackbar)({
+  '.MuiPaper-root':{
+    backgroundColor: 'rgb(255, 102, 0)',
+    borderRadius:'10px',
+    display: 'flex',
+    padding: '6px 16px',
+    color:'rgb(200, 200, 200)',
+    fontSize:'large',
+  },
+})
 
 function App() {
 
@@ -13,6 +26,7 @@ function App() {
   const [tareas, setTareas] = useState([]);
   const [tareasFiltradas, setTareasFiltradas] = useState([]);
   const [showDialog, setShowDialog] = useState(false);
+  const [snackState, setSnackState] = useState({open:false,text:''});
   const { cargaTareas } = useListaTareas();
 
   useEffect(()=>{
@@ -23,6 +37,14 @@ function App() {
  useEffect(()=>{
   setTareasFiltradas(tareas.filter((tarea)=>tarea.nombre.includes(filtro)))
  },[tareas,filtro]);
+
+ const closeSnack = () => {
+  setSnackState({...snackState, open:false});
+};
+
+const openSnack = (texto) =>{
+  setSnackState({text:texto, open:true});
+};
 
   return (
       <div className="App">
@@ -43,8 +65,14 @@ function App() {
           <Boton setShowDialog={setShowDialog} />
         </div>
         { showDialog &&
-          <DialogoCrear showDialog={showDialog} setShowDialog={setShowDialog} setTareas={setTareas}/>
+          <DialogoCrear showDialog={showDialog} setShowDialog={setShowDialog} setTareas={setTareas} openSnack={openSnack}/>
         }
+        <MiSnackbar
+        anchorOrigin={{ vertical:'top', horizontal:'center' }}
+        open={snackState.open}
+        onClose={closeSnack}
+        message={snackState.text}
+      />
       </div>
   );
 }
